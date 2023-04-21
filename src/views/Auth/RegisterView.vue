@@ -1,27 +1,28 @@
 <template>
     <div class="card">
-      <form @submit.prevent="() => {}" novalidate>
+      <form @submit.prevent="store.handleSubmit" novalidate>
         <div>
           <h1 class="text-2xl font-bold mb-4 text-center">Register</h1>
 
           <div class="flex flex-column gap-2 mt-4">
             <label for="username">Username</label>
-            <InputText id="username" v-model="username" autocomplete="name" required/>
+            <InputText id="username" v-model="store.form.name" autocomplete="name" required/>
           </div>
 
           <div class="flex flex-column gap-2 mt-4">
             <label for="email">Email</label>
-            <InputText id="email" v-model="email" autocomplete="email" required/>
+            <InputText id="email" v-model="store.form.email" autocomplete="email" required/>
           </div>
+
 
           <div class="flex flex-column gap-2 mt-4">
             <label for="password">Password</label>
-            <Password class="w-full" intputId="password" v-model="password" autocomplete="new-password" required toggleMask />
+            <Password class="w-full" intputId="password" v-model="store.form.password" autocomplete="new-password" required toggleMask />
           </div>
 
           <div class="flex flex-column gap-2 mt-4">
             <label for="password_confirm">Repeat password</label>
-            <Password class="w-full" intputId="password_confirm" v-model="passwordConfirm" :feedback="false" autocomplete="new-password" required toggleMask />
+            <Password class="w-full" intputId="password_confirm" v-model="store.form.password_confirmation" :feedback="false" autocomplete="new-password" required toggleMask />
           </div>
     
           <div class="mt-6">
@@ -51,6 +52,19 @@
         Button
       },
     };
+  </script>
+  
+  <script setup>
+  
+    import { onBeforeUnmount } from "vue";
+    import { useRegister } from "@/stores/register";
+
+    const store = useRegister();
+  
+    onBeforeUnmount(store.resetForm);
+
+    console.log(store.form);
+
   </script>
   <style>
   .card{
